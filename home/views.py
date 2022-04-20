@@ -4,7 +4,7 @@ from blog.models import Post, Category
 
 
 def home_page(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(status=True)
     category = Category.objects.all()
 
     context = {
