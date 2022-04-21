@@ -1,0 +1,7 @@
+asgiref==3.5.0
+Django==3.2
+django-cleanup==6.0.0
+django-render-partial==0.4
+Pillow==9.1.0
+pytz==2022.1
+sqlparse==0.4.2

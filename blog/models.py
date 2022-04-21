@@ -2,12 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.title
@@ -17,6 +22,7 @@ class Post(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=50, unique_for_date="publish")
+    slug = models.SlugField(null=True, unique=True, blank=True)
     category = models.ManyToManyField(Category)
     body = models.TextField()
     image = models.ImageField(upload_to='images/posts')
@@ -26,8 +32,13 @@ class Post(models.Model):
     status = models.BooleanField(default=True)
 
 
+
     def get_absolute_url(self):
-        return reverse('blog:detail', args=[self.id])
+        return reverse('blog:detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

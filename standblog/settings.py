@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third apps party
     'django_cleanup.apps.CleanupConfig',
+    'django_render_partial',
     # my apps
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
@@ -69,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'context_processors.context_processors.recent_posts',
+                'context_processors.context_processors.recent_categories',
             ],
         },
     },
