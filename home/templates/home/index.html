@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load social_share %}
 
 
 {% block title %} Home Page {% endblock %}
@@ -51,13 +52,13 @@
                           </div>
                           <div class="down-content">
                             <span>{{ r_post.category.first }}</span>
-                            <a href="post-details.html"><h4>{{ r_post.title }}</h4></a>
+                            <a href="{{ r_post.get_absolute_url }}"><h4>{{ r_post.title }}</h4></a>
                             <ul class="post-info">
                               <li><a href="#">{{ r_post.author.username }}</a></li>
                               <li><a href="#">{{ r_post.created }}</a></li>
                               <li><a href="#">12 Comments</a></li>
                             </ul>
-                            <p>{{ r_post.body }}</p>
+                            <p>{{ r_post.body|truncatechars:150 }}</p>
                             <div class="post-options">
                               <div class="row">
                                 <div class="col-6">
@@ -70,8 +71,7 @@
                                 <div class="col-6">
                                   <ul class="post-share">
                                     <li><i class="fa fa-share-alt"></i></li>
-                                    <li><a href="#">Facebook</a>,</li>
-                                    <li><a href="#"> Twitter</a></li>
+                                    <li>{% post_to_whatsapp post.get_absolute_url 'Whatsapp' %}</li>
                                   </ul>
                                 </div>
                               </div>
