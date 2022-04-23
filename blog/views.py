@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Category
+from .models import Post, Category, Comment
 from django.core.paginator import Paginator
 
 
 
 def posts_detail(request, slug):
     posts = get_object_or_404(Post, slug=slug)
+    if request.method == 'POST':
+        parent_id = request.POST.get('parent_id')
+        body = request.POST.get('body')
+        Comment.objects.create(body=body, post=posts, user=request.user, parent_id=parent_id)
 
     context = {
         'posts': posts,

@@ -11,6 +11,7 @@ def home_page(request):
     context = {
         "posts": posts,
         "categories": category,
+        "recent_posts": recent_posts,
     }
 
     return render(request, "home/index.html", context)
