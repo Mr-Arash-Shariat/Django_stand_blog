@@ -39,3 +39,17 @@ def category_detail(request, pk=None):
         'posts': posts,
     }
     return render(request, 'blog/posts_list.html', context)
+
+
+def search(request):
+    q = request.GET.get('q')
+    posts = Post.objects.filter(title__icontains=q)
+    page_number = request.GET.get('page')
+    pagiantor = Paginator(posts, 4)
+    objects_list = pagiantor.get_page(page_number)
+
+    context = {
+        'posts': objects_list,
+    }
+
+    return render(request, 'blog/posts_list.html', context)
