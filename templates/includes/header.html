@@ -23,7 +23,9 @@
             <a class="nav-link" href="{% url 'blog:list' %}">All Posts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact Us</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'contact_us' %}active{% endif %}" href="{% url 'blog:contact_us' %}">
+                Contact Us
+            </a>
           </li>
 
 

@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Category, Comment
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post, Category, Comment, Message
 from django.core.paginator import Paginator
+from .forms import ContactUsForm, MessageForm
 
 
 
@@ -53,3 +54,19 @@ def search(request):
     }
 
     return render(request, 'blog/posts_list.html', context)
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home_page:home')
+    else:
+        form = MessageForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'blog/contact_us.html', context)
