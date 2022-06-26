@@ -155,3 +155,7 @@ assets
 .idea
 .vscode
 # End of https://www.toptal.com/developers/gitignore/api/django
+
+# My files
+Readme.txt
+Readme.md

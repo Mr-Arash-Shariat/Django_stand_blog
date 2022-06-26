@@ -17,7 +17,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About Us</a>
+            <a class="nav-link" href="{% url 'about_us:about' %}">About Us</a>
           </li>
           <li class="nav-item {% if request.resolver_match.url_name == 'list' %}active{% endif %}">
             <a class="nav-link" href="{% url 'blog:list' %}">All Posts</a>
@@ -45,9 +45,11 @@
                                 <img src="{% static 'images/profile.png' %}" width="25px" height="25px%" style="border-radius: 100%">
                             </span>
                         {% endif %}
-                        <a class="nav-link text-success" href="#">{{ user.profile.user.username }}</a>
+                        <a class="nav-link" href="#">{{ user.profile.user.username }}</a>
                         <span class="mt-1.5" style="font-size:25px">/</span>
                         <a class="nav-link text-danger" href="{% url 'accounts:logout' %}">Logout</a>
+                        <span class="mt-1.5" style="font-size:25px">/</span>
+                        <a class="nav-link" href="{% url 'accounts:edit_user' %}">Edit Profile</a>
                     </div>
               {% else %}
                   <div class="d-flex">
