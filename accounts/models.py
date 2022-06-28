@@ -10,5 +10,9 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='profile/images', null=True, blank=True)
 
 
+    class Meta:
+        verbose_name = 'حساب کاربری'
+        verbose_name_plural = 'حساب های کاربری'
+
     def __str__(self):
         return self.user.username

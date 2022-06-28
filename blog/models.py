@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -7,30 +8,34 @@ from django.template.defaultfilters import slugify
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name='عنوان')
     created = models.DateTimeField(auto_now_add=True)
 
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name = 'دسته بندی'
+        verbose_name_plural = 'دسته بندی ها'
 
     def __str__(self):
         return self.title
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    title = models.CharField(max_length=50, unique_for_date="publish")
-    slug = models.SlugField(null=True, unique=True, blank=True)
-    category = models.ManyToManyField(Category, related_name='posts')
-    body = models.TextField()
-    image = models.ImageField(upload_to='images/posts')
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    publish = models.DateTimeField(default=timezone.now)
-    status = models.BooleanField(default=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name='نویسنده')
+    title = models.CharField(max_length=50, unique_for_date="publish", verbose_name='عنوان')
+    slug = models.SlugField(null=True, unique=True, blank=True, verbose_name='لینک')
+    category = models.ManyToManyField(Category, related_name='posts', verbose_name='دسته بندی')
+    body = models.TextField(verbose_name='محتوا')
+    image = models.ImageField(upload_to='images/posts', verbose_name='عکس')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ساخت')
+    updated = models.DateTimeField(auto_now=True, verbose_name='آخرین بروزرسانی')
+    publish = models.DateTimeField(default=timezone.now, verbose_name='زمان انتشار')
+    status = models.BooleanField(default=True, verbose_name='وضعیت')
 
 
+    class Meta:
+        verbose_name = 'مقاله'
+        verbose_name_plural = 'مقاله ها'
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})
@@ -40,7 +45,7 @@ class Post(models.Model):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.body[:10]}"
 
 
 class Comment(models.Model):
@@ -49,6 +54,11 @@ class Comment(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = 'دیدگاه'
+        verbose_name_plural = 'دیدگاه ها'
 
 
     def __str__(self):
@@ -64,6 +74,10 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     date = models.DateTimeField(default=timezone.now())
 
+
+    class Meta:
+        verbose_name = 'پیام'
+        verbose_name_plural = 'پیام ها'
 
     def __str__(self):
         return self.title
